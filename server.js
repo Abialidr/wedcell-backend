@@ -132,7 +132,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "../dist")));
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", express.static("public"));
-app.get("/", auth, (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).send({ success: true, message: "ok" });
 });
 app.get("/checkDef", (req, res) => {
