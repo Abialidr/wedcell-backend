@@ -7,7 +7,15 @@ var fs = require("fs");
 var path = require("path");
 
 const admin = require("firebase-admin");
-const config = require("../../../servicekey.json");
+let FirebaseAdmin;
+try {
+  const config = require("../../../servicekey.json");
+  FirebaseAdmin = admin.initializeApp({
+    credential: admin.credential.cert(config),
+  });
+} catch (error) {
+  console.warn("Firebase servicekey.json not found, notifications will not work.");
+}
 
 var transporter = nodemailer.createTransport({
   service: "gmail",
@@ -15,10 +23,6 @@ var transporter = nodemailer.createTransport({
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_PASS,
   },
-});
-
-const FirebaseAdmin = admin.initializeApp({
-  credential: admin.credential.cert(config),
 });
 
 function NotificationServices() {

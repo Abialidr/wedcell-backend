@@ -42,7 +42,6 @@
     "otp-generator": "^4.0.1",
     "pdfkit-table": "^0.1.99",
     "q": "^1.5.1",
-    "razorpay": "^2.8.6",
     "socket.io": "^4.7.2",
     "stripe": "^8.167.0",
     "swagger-jsdoc": "^6.2.5",
