@@ -13,10 +13,11 @@ const s3 = new aws.S3({
   region: 'ap-south-1',
 });
 
+
 module.exports = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'wedfield',
+    bucket: 'wedfield-prod',
     contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -25,9 +26,8 @@ module.exports = multer({
       cb(
         null,
         req.user !== undefined
-          ? `${req.user._id}_${file.fieldname}_${Date.now().toString()}_${
-              file.originalname
-            }`
+          ? `${req.user._id}_${file.fieldname}_${Date.now().toString()}_${file.originalname
+          }`
           : `${Date.now().toString()}_${file.originalname}`
       );
     },
