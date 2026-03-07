@@ -4,13 +4,14 @@ const Crypto = require("crypto");
 const { validateSignup, validateVerify } = require("../_validation/addEmail");
 
 const nodemailer = require("nodemailer");
+const env = require("../../../config/env");
 
 let transporter = nodemailer.createTransport({
   host: "smtp.sendgrid.net",
   port: 587,
   auth: {
     user: "apikey",
-    pass: process.env.SENDGRID_API_KEY,
+    pass: env.SENDGRID_API_KEY,
   },
 });
 
@@ -32,7 +33,7 @@ const addEmail = async (req, res) => {
 
   transporter.sendMail(
     {
-      from: "arpitofficial06@gmail.com", // verified sender email
+      from: env.COMPANY_EMAIL, // verified sender email
       to: newEmail.emailAddress, // recipient email
       subject: "Please verify that its you", // Subject line
       text: `Please verify that it's you \n\n

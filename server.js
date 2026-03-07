@@ -11,7 +11,7 @@ var swaggerDoc = require("swagger-ui-express");
 var swaggerDocmantation = require("./mvc/helper/documentation.js");
 const mongoose = require("mongoose");
 const swaggerJsDoc = require("swagger-jsdoc");
-require("dotenv/config");
+const env = require("./config/env");
 const socketServ = require("./socket");
 const cors = require("cors");
 const { categories, subcategories } = require("./lib/defaulVariables");
@@ -73,7 +73,7 @@ const HandlerRouter = require("./mvc/HandlerUser/routes/HandlerRoutes.js");
 //   ],
 // });
 
-var port = process.env.PORT || 8080;
+var port = env.PORT || 8080;
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -110,7 +110,7 @@ app.use("/documentations", swaggerDoc.serve);
 app.use("/documentations", swaggerDoc.setup(swaggerDocmantation));
 
 mongoose.connect(
-  process.env.PROXY,
+  env.PROXY,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
     console.log("Connected to MongoDB");

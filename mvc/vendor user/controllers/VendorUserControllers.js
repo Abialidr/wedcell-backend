@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
-var salt = "$2b$10$pm4WmosjwhVivTDHxkCoiO";
+const env = require("../../../config/env");
+var salt = env.SALT;
 const { otpValidationMobile } = require("../../otp/validation/OtpValidation");
 const Otp = require("../../otp/models/OtpModal");
 const {
@@ -66,15 +67,15 @@ module.exports = {
           : [],
         albums: album
           ? album.map((item, itemKey) => {
-              return {
-                name: item.name,
-                value: item.value.map((link, linkKey) =>
-                  replaceS3BaseUrl(
-                    req.files[`album${itemKey}`][linkKey].location
-                  )
-                ),
-              };
-            })
+            return {
+              name: item.name,
+              value: item.value.map((link, linkKey) =>
+                replaceS3BaseUrl(
+                  req.files[`album${itemKey}`][linkKey].location
+                )
+              ),
+            };
+          })
           : [],
       };
       var condition = {
@@ -150,20 +151,20 @@ module.exports = {
         let album2 = req.body?.albumLink ? JSON.parse(req.body?.albumLink) : [];
         albums = albums
           ? albums.map((item, itemKey) => {
-              return {
-                name: item.name,
-                value: item.value
-                  .map((link, linkKey) => {
-                    if (req?.files[`album${itemKey}`]) {
-                      return replaceS3BaseUrl(
-                        req?.files[`album${itemKey}`][linkKey]?.location
-                      );
-                    }
-                    return null;
-                  })
-                  .filter((link) => typeof link === "string"),
-              };
-            })
+            return {
+              name: item.name,
+              value: item.value
+                .map((link, linkKey) => {
+                  if (req?.files[`album${itemKey}`]) {
+                    return replaceS3BaseUrl(
+                      req?.files[`album${itemKey}`][linkKey]?.location
+                    );
+                  }
+                  return null;
+                })
+                .filter((link) => typeof link === "string"),
+            };
+          })
           : [];
         albums.forEach((data, key) => {
           if (album2[key]) {
@@ -186,14 +187,14 @@ module.exports = {
         const brochure = req.body.brochureLink
           ? replaceS3BaseUrl(req.body.brochureLink)
           : req.files?.brochure
-          ? replaceS3BaseUrl(req.files?.brochure[0].location)
-          : "";
+            ? replaceS3BaseUrl(req.files?.brochure[0].location)
+            : "";
 
         const mainImage = req.body.mainLink
           ? replaceS3BaseUrl(req.body.mainLink)
           : req.files?.main
-          ? replaceS3BaseUrl(req.files?.main[0].location)
-          : "";
+            ? replaceS3BaseUrl(req.files?.main[0].location)
+            : "";
 
         data = {
           name: req.body?.name ? req.body?.name : "",

@@ -7,6 +7,7 @@ var {
 } = require("../services/FamilyServices");
 const GuestServices = require("../../guests/services/GuestServices");
 var axios = require("axios");
+const env = require("../../../config/env");
 
 var moment = require("moment");
 module.exports = {
@@ -181,7 +182,7 @@ module.exports = {
       const Family = await GetOne({ _id: req.body.id });
       if (!Family?.InviteSent) {
         const hello = await axios.get(
-          `https://apicloudstack.com/api/send?number=91${Family?.FamilyContact}&type=text&message=this is test messae %0A from wedcell %0A https://wedcell.com/InvitationCard?id=${req.body.inviteId}%26FamilyId=${Family?._id} &instance_id=${process.env.WHATSAPP_INSTANCE_ID}&access_token=${process.env.WHATSAPP_ACCES_TOKEN}`
+          `https://apicloudstack.com/api/send?number=91${Family?.FamilyContact}&type=text&message=this is test messae %0A from wedcell %0A https://wedcell.com/InvitationCard?id=${req.body.inviteId}%26FamilyId=${Family?._id} &instance_id=${env.WHATSAPP_INSTANCE_ID}&access_token=${env.WHATSAPP_ACCES_TOKEN}`
         );
         if (hello?.data?.status === "success") {
           await Update({ _id: Family?._id }, { InviteSent: true });
@@ -217,7 +218,7 @@ module.exports = {
         );
         if (!data?.InviteSent) {
           const hello = await axios.get(
-            `https://apicloudstack.com/api/send?number=91${data?.FamilyContact}&type=text&message=this is test messae %0A from wedcell %0A https://wedcell.com/InvitationCard?id=${req.body.inviteId}%26FamilyId=${data?._id} &instance_id=${process.env.WHATSAPP_INSTANCE_ID}&access_token=${process.env.WHATSAPP_ACCES_TOKEN}`
+            `https://apicloudstack.com/api/send?number=91${data?.FamilyContact}&type=text&message=this is test messae %0A from wedcell %0A https://wedcell.com/InvitationCard?id=${req.body.inviteId}%26FamilyId=${data?._id} &instance_id=${env.WHATSAPP_INSTANCE_ID}&access_token=${env.WHATSAPP_ACCES_TOKEN}`
           );
           if (hello?.data?.status === "success") {
             await Update({ _id: data?._id }, { InviteSent: true });

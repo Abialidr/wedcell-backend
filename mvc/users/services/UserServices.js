@@ -5,7 +5,8 @@ var UserModels = require('../models/UserModels');
 var jwt = require('jsonwebtoken');
 var _ = require('underscore');
 const bcrypt = require('bcrypt');
-var salt = '$2b$10$pm4WmosjwhVivTDHxkCoiO';
+const env = require('../../../config/env');
+var salt = env.SALT;
 
 function UsersServices() {
   function CreateAccount(data) {
@@ -130,10 +131,10 @@ function UsersServices() {
     var user_data = _.clone(data[0]);
     // const salt = await bcrypt.genSalt(10);
     const userPasswordbcrypt = await bcrypt.hash(req_obj.password, salt);
-  
+
     var userPassword = CryptoJS.SHA256(req_obj.password).toString();
 
-   
+
     GenerateToken(user_data._id, user_data.role).then(function (token) {
 
       // bcrypt.compare(userPassword.toString(), user_data.password.toString()).then(async (match) => {

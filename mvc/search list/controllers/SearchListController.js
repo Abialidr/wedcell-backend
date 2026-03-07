@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
-var salt = '$2b$10$pm4WmosjwhVivTDHxkCoiO';
+const env = require('../../../config/env');
+var salt = env.SALT;
 const { otpValidationMobile } = require('../../otp/validation/OtpValidation');
 const Otp = require('../../otp/models/OtpModal');
 const {

@@ -2,6 +2,7 @@ const Otp = require("../models/OtpModal");
 var otpGenerator = require("otp-generator");
 var axios = require("axios");
 var xoauth2 = require("xoauth2");
+const env = require("../../../config/env");
 const {
   otpValidationMobile,
   otpValidationEmail,
@@ -29,8 +30,8 @@ var transporterMailtrap = nodemailer.createTransport({
       // clientSecret: '{Client Secret}',
       // refreshToken: '{refresh-token}',
       // accessToken: '{cached access token}'
-      user: "luckybelt79@gmail",
-      pass: "evdfolixnkvihnfc",
+      user: env.GMAIL_USER,
+      pass: env.GMAIL_PASS,
     }),
   },
 });
@@ -44,7 +45,7 @@ module.exports = {
       const message = ` Congratulations!+Your+order+${orderid}+has+been+successfully+placed.+We're+excited+to+serve+you.+Thank+you+for+choosing+us!+-+WedCell`;
 
       var url =
-        "http://makemysms.in/api/sendsms.php?username=wedcell&password=01679b59&sender=WEDCEL" +
+        `http://makemysms.in/api/sendsms.php?username=${env.MAKEMYSMS_USER}&password=${env.MAKEMYSMS_PASS}&sender=${env.MAKEMYSMS_SENDER}` +
         "&mobile=91" +
         mobile +
         "&type=1&product=1&template=1707169259922107515" +
@@ -102,7 +103,7 @@ module.exports = {
       const message = `Order+${orderid}+successfully+cancelled.+We+appreciate+your+understanding.+Thank+you+for+choosing+us.+-+WedCell`;
 
       var url =
-        "http://makemysms.in/api/sendsms.php?username=wedcell&password=01679b59&sender=WEDCEL" +
+        `http://makemysms.in/api/sendsms.php?username=${env.MAKEMYSMS_USER}&password=${env.MAKEMYSMS_PASS}&sender=${env.MAKEMYSMS_SENDER}` +
         "&mobile=91" +
         mobile +
         "&type=1&product=1&template=1707169259925163416" +
@@ -161,7 +162,7 @@ module.exports = {
         lowerCaseAlphabets: false,
         upperCaseAlphabets: false,
         specialChars: false,
-    });      
+      });
       // const OTP = 123456;
       if (mobile) {
         await otpValidationMobile.validate({
@@ -171,8 +172,8 @@ module.exports = {
         // var url =
         //   // `https://apicloudstack.com/api/send?number=${
         //   //   req.body.mobile
-        //   // }&type=text&message=${message} &instance_id=${process.env.WHATSAPP_INSTANCE_ID}&access_token=${
-        //   //   process.env.WHATSAPP_ACCES_TOKEN
+        //   // }&type=text&message=${message} &instance_id=${env.WHATSAPP_INSTANCE_ID}&access_token=${
+        //   //   env.WHATSAPP_ACCES_TOKEN
         //   // }`;
         //   'http://makemysms.in/api/sendsms.php?username=wedcell&password=01679b59&sender=WEDCEL' +
         //   '&mobile=91' +
@@ -190,7 +191,7 @@ module.exports = {
         // ". OTP is valid till 5 min. Do not share with anyone.";
 
         var url =
-          "https://mdssend.in/api.php?username=wedcell&apikey=hgxh1hv0Ron8&senderid=WEDCEL&route=TRANS" +
+          `https://mdssend.in/api.php?username=${env.MDSSEND_USER}&apikey=${env.MDSSEND_APIKEY}&senderid=${env.MDSSEND_SENDERID}&route=TRANS` +
           "&mobile=91" +
           req.body.mobile.replace(/^.{2}/g, "") +
           "&text=Your OTP for logging in to Wedcell account is " +
@@ -229,7 +230,7 @@ module.exports = {
           email,
         });
         var mailOptions = {
-          from: "luckybelt79@gmail",
+          from: env.GMAIL_USER_OTP,
           to: email,
           subject: "email Verification",
           html: `Dear Customer Here is your OTP for Email verification : <b>${OTP} </b>`,
@@ -300,7 +301,7 @@ module.exports = {
           email,
         });
         var mailOptions = {
-          from: "luckybelt79@gmail",
+          from: env.GMAIL_USER_OTP,
           to: email,
           subject: "email Verification",
           html: `Dear Customer Here is your OTP for Email verification : <b>${OTP} </b>`,

@@ -1,7 +1,8 @@
 const Student = require("../models/StudentModal");
 const Otp = require("../../otp/models/OtpModal");
 const bcrypt = require("bcrypt");
-var salt = "$2b$10$pm4WmosjwhVivTDHxkCoiO";
+const env = require("../../../config/env");
+var salt = env.SALT;
 var config = require("../../../config/config");
 var jwt = require("jsonwebtoken");
 const {
@@ -180,8 +181,8 @@ module.exports = {
         const profile_pic = req.body.profilelink
           ? req.body.profilelink
           : req.files?.profile
-          ? replaceS3BaseUrl(req.files?.profile[0].location)
-          : "";
+            ? replaceS3BaseUrl(req.files?.profile[0].location)
+            : "";
 
         data.cover_pic = cover_pic;
         data.profile_pic = profile_pic;
@@ -246,7 +247,7 @@ module.exports = {
       } else {
         res.status(200).send(students);
       }
-    } catch (error) {}
+    } catch (error) { }
   },
   getAll: async (req, res) => {
     try {

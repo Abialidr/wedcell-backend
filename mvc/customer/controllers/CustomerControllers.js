@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
-var salt = "$2b$10$pm4WmosjwhVivTDHxkCoiO";
+const env = require("../../../config/env");
+var salt = env.SALT;
 const CustomerModels = require("../models/CustomerModels");
 const { otpValidationMobile } = require("../../otp/validation/OtpValidation");
 const Otp = require("../../otp/models/OtpModal");
@@ -682,8 +683,8 @@ module.exports = {
         const profile_pic = req.body.profilelink
           ? req.body.profilelink
           : req.files?.profile
-          ? replaceS3BaseUrl(req.files?.profile[0].location)
-          : "";
+            ? replaceS3BaseUrl(req.files?.profile[0].location)
+            : "";
 
         data.cover_pic = cover_pic;
         data.profile_pic = profile_pic;

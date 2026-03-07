@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
-var salt = "$2b$10$pm4WmosjwhVivTDHxkCoiO";
+const env = require("../../../config/env");
+var salt = env.SALT;
 const { otpValidationMobile } = require("../../otp/validation/OtpValidation");
 const Otp = require("../../otp/models/OtpModal");
 var WishlistsServices = require("../../wishlist/services/WishlistServices");
@@ -31,16 +32,16 @@ module.exports = {
       const album = req.body?.album ? JSON.parse(req.body?.album) : null;
       const amenities = JSON.parse(req.body?.amenities)
         ? JSON.parse(req.body?.amenities).map((item, itemKey) => {
-            return {
-              name: item.name,
-              min: item.min,
-              max: item.max,
-              sqaurefeet: item.sqaurefeet,
-              layout: replaceS3BaseUrl(
-                req?.files[`amenities${itemKey}`][0]?.location
-              ),
-            };
-          })
+          return {
+            name: item.name,
+            min: item.min,
+            max: item.max,
+            sqaurefeet: item.sqaurefeet,
+            layout: replaceS3BaseUrl(
+              req?.files[`amenities${itemKey}`][0]?.location
+            ),
+          };
+        })
         : [];
       const data = {
         name: req.body?.name ? req.body?.name : "",
@@ -79,15 +80,15 @@ module.exports = {
         vidLinks: req.body?.vidLinks ? JSON.parse(req.body?.vidLinks) : [],
         albums: album
           ? album.map((item, itemKey) => {
-              return {
-                name: item.name,
-                value: item.value.map((link, linkKey) =>
-                  replaceS3BaseUrl(
-                    req.files[`album${itemKey}`][linkKey].location
-                  )
-                ),
-              };
-            })
+            return {
+              name: item.name,
+              value: item.value.map((link, linkKey) =>
+                replaceS3BaseUrl(
+                  req.files[`album${itemKey}`][linkKey].location
+                )
+              ),
+            };
+          })
           : [],
         menu: req.files?.menu
           ? req.files?.menu.map((item) => replaceS3BaseUrl(item.location))
@@ -106,31 +107,31 @@ module.exports = {
         features: req.body?.features
           ? JSON.parse(req.body?.features)
           : [
-              { name: "Wi-Fi", value: false },
-              { name: "Swimming pool", value: false },
-              { name: "Laundry", value: false },
-              { name: "Room service", value: false },
-              { name: "Fitness center", value: false },
-              { name: "Breakfast", value: false },
-              { name: "Housekeeping", value: false },
-              { name: "Spa", value: false },
-              { name: "Parking", value: false },
-              { name: "Valet parking", value: false },
-              { name: "Hair dryer", value: false },
-              { name: "Restaurant", value: false },
-              { name: "Minibar", value: false },
-              { name: "Personal care products", value: false },
-              { name: "Slippers", value: false },
-              { name: "Towel", value: false },
-              { name: "Shaving kit", value: false },
-              { name: "Bathrobes", value: false },
-              { name: "Free breakfast", value: false },
-              { name: "Smart TV", value: false },
-              { name: "Pet-friendly hotels", value: false },
-              { name: "Concierge", value: false },
-              { name: "Air conditioning", value: false },
-              { name: "Iron and Ironing Board", value: false },
-            ],
+            { name: "Wi-Fi", value: false },
+            { name: "Swimming pool", value: false },
+            { name: "Laundry", value: false },
+            { name: "Room service", value: false },
+            { name: "Fitness center", value: false },
+            { name: "Breakfast", value: false },
+            { name: "Housekeeping", value: false },
+            { name: "Spa", value: false },
+            { name: "Parking", value: false },
+            { name: "Valet parking", value: false },
+            { name: "Hair dryer", value: false },
+            { name: "Restaurant", value: false },
+            { name: "Minibar", value: false },
+            { name: "Personal care products", value: false },
+            { name: "Slippers", value: false },
+            { name: "Towel", value: false },
+            { name: "Shaving kit", value: false },
+            { name: "Bathrobes", value: false },
+            { name: "Free breakfast", value: false },
+            { name: "Smart TV", value: false },
+            { name: "Pet-friendly hotels", value: false },
+            { name: "Concierge", value: false },
+            { name: "Air conditioning", value: false },
+            { name: "Iron and Ironing Board", value: false },
+          ],
       };
 
       // const pwd = await bcrypt.hash(data.password, salt);
@@ -218,34 +219,34 @@ module.exports = {
         let album2 = req.body?.albumLink ? JSON.parse(req.body?.albumLink) : [];
         albums = albums
           ? albums.map((item, itemKey) => {
-              return {
-                name: item.name,
-                value: item.value
-                  .map((link, linkKey) => {
-                    if (req?.files[`album${itemKey}`]) {
-                      return req?.files[`album${itemKey}`][linkKey]?.location;
-                    }
-                    return null;
-                  })
-                  .filter((link) => typeof link === "string"),
-              };
-            })
+            return {
+              name: item.name,
+              value: item.value
+                .map((link, linkKey) => {
+                  if (req?.files[`album${itemKey}`]) {
+                    return req?.files[`album${itemKey}`][linkKey]?.location;
+                  }
+                  return null;
+                })
+                .filter((link) => typeof link === "string"),
+            };
+          })
           : [];
         const amenities = JSON.parse(req.body?.amenities)
           ? JSON.parse(req.body?.amenities).map((item, itemKey) => {
-              return {
-                name: item.name,
-                min: item.min,
-                max: item.max,
-                sqaurefeet: item.sqaurefeet,
-                name: item.name,
-                layout: item.layout
-                  ? replaceS3BaseUrl(item.layout)
-                  : replaceS3BaseUrl(
-                      req?.files[`amenities${itemKey}`][0]?.location
-                    ),
-              };
-            })
+            return {
+              name: item.name,
+              min: item.min,
+              max: item.max,
+              sqaurefeet: item.sqaurefeet,
+              name: item.name,
+              layout: item.layout
+                ? replaceS3BaseUrl(item.layout)
+                : replaceS3BaseUrl(
+                  req?.files[`amenities${itemKey}`][0]?.location
+                ),
+            };
+          })
           : [];
         albums.forEach((data, key) => {
           if (album2[key]) {
@@ -290,14 +291,14 @@ module.exports = {
         const brochure = req.body.brochureLink
           ? replaceS3BaseUrl(req.body.brochureLink)
           : req.files?.brochure
-          ? replaceS3BaseUrl(req.files?.brochure[0].location)
-          : "";
+            ? replaceS3BaseUrl(req.files?.brochure[0].location)
+            : "";
 
         const mainImage = req.body.mainLink
           ? replaceS3BaseUrl(req.body.mainLink)
           : req.files?.main
-          ? replaceS3BaseUrl(req.files?.main[0].location)
-          : "";
+            ? replaceS3BaseUrl(req.files?.main[0].location)
+            : "";
 
         data = {
           name: req.body?.name ? req.body?.name : "",
@@ -961,7 +962,7 @@ module.exports = {
               }
             },
           }
-          
+
         },
         { $match: matchConditions },
 
@@ -1154,9 +1155,9 @@ module.exports = {
         const newLMain =
           typeof data?.lmenu === "string"
             ? data?.lmenu?.replace(
-                "https://wedcell.s3.ap-south-1.amazonaws.com",
-                ""
-              )
+              "https://wedcell.s3.ap-south-1.amazonaws.com",
+              ""
+            )
             : "";
         const newAmenities = data?.amenities?.map((d) => {
           d.layout = replaceS3BaseUrl(d?.layout);

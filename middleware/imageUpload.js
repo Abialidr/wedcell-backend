@@ -1,11 +1,11 @@
 const aws = require('aws-sdk');
 const multerS3 = require('multer-s3');
-require('dotenv/config');
+const env = require('../config/env');
 const multer = require('multer');
 
 const creds = new aws.Credentials(
-  process.env.S3_ACCESS_KEY,
-  process.env.S3_SECRET_KEY
+  env.S3_ACCESS_KEY,
+  env.S3_SECRET_KEY
 );
 
 const s3 = new aws.S3({

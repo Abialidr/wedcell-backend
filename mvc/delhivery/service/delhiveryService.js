@@ -1,11 +1,12 @@
 const axios = require("axios");
 const ShopNowUserModels = require("../../shop now user/models/ShopNowUserModels");
+const env = require("../../../config/env");
 
 const DelhiveryService = () => {
   const checkPIN = async (pincode) => {
     // const pincode = '700121';
     try {
-      const apiToken = process.env.apiToken;
+      const apiToken = env.apiToken;
       const url = `https://track.delhivery.com/c/api/pin-codes/json/?filter_codes=${pincode}`;
 
       const headers = {
@@ -23,7 +24,7 @@ const DelhiveryService = () => {
   };
   const check_charges = async (pincode, weight) => {
     // const pincode = '700121';
-    const apiToken = process.env.apiToken;
+    const apiToken = env.apiToken;
     const url = `https://track.delhivery.com/api/kinko/v1/invoice/charges/.json`;
 
     const headers = {
@@ -49,7 +50,7 @@ const DelhiveryService = () => {
   };
   const create_warehouse = async (payload) => {
     // const pincode = '700121';
-    const apiToken = process.env.apiToken;
+    const apiToken = env.apiToken;
     const url = `https://track.delhivery.com/api/backend/clientwarehouse/create/`;
 
     const headers = {
@@ -71,7 +72,7 @@ const DelhiveryService = () => {
   const update_warehouse = async (payload) => {
     console.log("payload", payload);
     // const pincode = '700121';
-    const apiToken = process.env.apiToken;
+    const apiToken = env.apiToken;
     const url = `https://track.delhivery.com/api/backend/clientwarehouse/edit/`;
 
     const headers = {
@@ -94,7 +95,7 @@ const DelhiveryService = () => {
     console.log("DATAAAAA", data);
     // const pincode = '700121';
     let codAmount;
-    const apiToken = process.env.apiToken;
+    const apiToken = env.apiToken;
     const url = `https://track.delhivery.com/api/cmu/create.json`;
     const shopkeeper = await ShopNowUserModels.findById(data.shopkeeperId);
     console.log(shopkeeper);
@@ -104,8 +105,8 @@ const DelhiveryService = () => {
     };
     mode == "COD"
       ? (codAmount = Math.ceil(
-          (data.amount * data.quantity + data.shipping) / 100
-        ))
+        (data.amount * data.quantity + data.shipping) / 100
+      ))
       : (codAmount = 0);
     const rawData = `format=json&data=${encodeURIComponent(
       JSON.stringify({
@@ -147,7 +148,7 @@ const DelhiveryService = () => {
   };
   const cancelShipping = async (waybill) => {
     // const pincode = '700121';
-    const apiToken = process.env.apiToken;
+    const apiToken = env.apiToken;
     const url = `https://track.delhivery.com/api/p/edit`;
 
     const headers = {
@@ -175,7 +176,7 @@ const DelhiveryService = () => {
   const packingSlip = async (waybill) => {
     // const pincode = '700121';
     console.log(waybill);
-    const apiToken = process.env.apiToken;
+    const apiToken = env.apiToken;
     const url = `https://track.delhivery.com/api/p/packing_slip`;
 
     const headers = {

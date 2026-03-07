@@ -6,7 +6,7 @@ const messageModel = require("../models/messageModel");
 const realMessageModel = require("../models/realMessageModel");
 var ContactServices = require("../services/contactServices");
 const aws = require("aws-sdk");
-require("dotenv/config");
+const env = require("../../../config/env");
 const moment = require("moment/moment");
 const mongoose = require("mongoose");
 const realGroupMessageModel = require("../models/realGroupMessageModel");
@@ -41,16 +41,16 @@ module.exports = {
           const message2 = `You Were trying contact ${req.body.vendorName}. Here is ${req.body.vendorName}'s Number’s ${req.body.vendorContact} Best Regards WedCell Team`;
           // var url = `https://apicloudstack.com/api/send?number=${
           //   req.body.vendorContact
-          // }&type=text&message=${message} &instance_id=${"65F137DB8BC0D"}&access_token=${
-          //   process.env.WHATSAPP_ACCES_TOKEN
+          // }&type=text&message=${message} &instance_id=${env.WHATSAPP_INSTANCE_ID}&access_token=${
+          //   env.WHATSAPP_ACCES_TOKEN
           // }`;
           // var url2 = `https://apicloudstack.com/api/send?number=${
           //   req.body.prospectContact
-          // }&type=text&message=${message2} &instance_id=${"65F137DB8BC0D"}&access_token=${
-          //   process.env.WHATSAPP_ACCES_TOKEN
+          // }&type=text&message=${message2} &instance_id=${env.WHATSAPP_INSTANCE_ID}&access_token=${
+          //   env.WHATSAPP_ACCES_TOKEN
           // }`;
           const url =
-            "http://makemysms.in/api/sendsms.php?username=wedcell&password=01679b59&sender=WEDCEL" +
+            `http://makemysms.in/api/sendsms.php?username=${env.MAKEMYSMS_USER}&password=${env.MAKEMYSMS_PASS}&sender=${env.MAKEMYSMS_SENDER}` +
             "&mobile=91" +
             req.body.vendorContact +
             "&type=1&product=1&template=1707163867867832694" +
@@ -327,7 +327,7 @@ module.exports = {
         let final = [...result2, ...result];
         return res.json(final);
       }
-    } catch (e) {}
+    } catch (e) { }
 
     // })
     // .catch(function (error) {
@@ -960,8 +960,8 @@ module.exports = {
     try {
       const s3 = new aws.S3({
         region: "ap-south-1",
-        accessKeyId: process.env.S3_ACCESS_KEY,
-        secretAccessKey: process.env.S3_SECRET_KEY,
+        accessKeyId: env.S3_ACCESS_KEY,
+        secretAccessKey: env.S3_SECRET_KEY,
       });
       const timestamp = moment().format("YYYYMMDD_HHmmss");
       const modifiedFileName = `${timestamp}_${req.files.file.name}`;

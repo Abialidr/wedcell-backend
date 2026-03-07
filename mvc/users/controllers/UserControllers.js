@@ -1,12 +1,13 @@
 var UsersServices = require("../services/UserServices");
 var UtilsService = require("../../utils/services/UtilsServices");
 var config = require("../../../config/config");
+const env = require("../../../config/env");
 var nodemailer = require("nodemailer");
 var otpGenerator = require("otp-generator");
 const { async } = require("q");
 const axios = require("axios");
 const bcrypt = require("bcrypt");
-var salt = "$2b$10$pm4WmosjwhVivTDHxkCoiO";
+var salt = env.SALT;
 var UserModels = require("../models/UserModels");
 const { replaceS3BaseUrl } = require("../../../utils");
 
@@ -22,12 +23,12 @@ var transporterMailtrap = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
   port: 2525,
   auth: {
-    user: process.env.MAILTRAP_USER,
-    pass: process.env.MAILTRAP_PASS,
+    user: env.MAILTRAP_USER,
+    pass: env.MAILTRAP_PASS,
   },
 });
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(env.STRIPE_SECRET_KEY);
 
 module.exports = {
   GetUser: function (req, res) {
@@ -545,7 +546,7 @@ module.exports = {
       specialChars: false,
     });
     var url =
-      "http://makemysms.in/api/sendsms.php?username=wedcell&password=01679b59&sender=WEDCEL" +
+      `http://makemysms.in/api/sendsms.php?username=${env.MAKEMYSMS_USER}&password=${env.MAKEMYSMS_PASS}&sender=${env.MAKEMYSMS_SENDER}` +
       "&mobile=" +
       req.body.mobile +
       "&type=1&product=1&template=1707163853590237508" +

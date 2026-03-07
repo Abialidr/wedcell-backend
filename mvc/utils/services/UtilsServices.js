@@ -1,7 +1,7 @@
-var q = require('q');
 const twilio = require('twilio');
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
+const env = require('../../../config/env');
+const accountSid = env.TWILIO_ACCOUNT_SID;
+const authToken = env.TWILIO_AUTH_TOKEN;
 
 function UtilsServices() {
   function StoreSession(data, message, req) {
@@ -172,7 +172,7 @@ function UtilsServices() {
       let response = await client.messages.create({
         body: body,
         to: number,
-        from: '+919424760344',
+        from: env.COMPANY_PHONE,
       });
       callback(null, response, 'SMS Sent to ' + number + body);
     } catch (ex) {

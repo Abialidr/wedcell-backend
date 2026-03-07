@@ -4,7 +4,8 @@ var UtilsServices = require("../../utils/services/UtilsServices");
 var ip = require("ip");
 var CryptoJS = require("crypto-js");
 const bcrypt = require("bcrypt");
-var salt = "$2b$10$pm4WmosjwhVivTDHxkCoiO";
+const env = require("../../../config/env");
+var salt = env.SALT;
 module.exports = {
   ForgotPassword: async function (req, res) {
     let { mobile } = req.body;

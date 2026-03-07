@@ -5,6 +5,7 @@ var ItemService = require("../../items/services/ItemServices");
 var nodemailer = require("nodemailer");
 var fs = require("fs");
 var path = require("path");
+const env = require("../../../config/env");
 
 const admin = require("firebase-admin");
 let FirebaseAdmin;
@@ -20,8 +21,8 @@ try {
 var transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
+    user: env.GMAIL_USER,
+    pass: env.GMAIL_PASS,
   },
 });
 
@@ -160,7 +161,7 @@ Team SENDMEBOX
 
 THIS ONE IS FOR EMAIL THAT IS PLACED AFTER BID.`;
           var mailOptions = {
-            from: "sendmeboxcomllc@gmail.com",
+            from: env.COMPANY_EMAIL,
             to: User.email,
             subject: "Notification for send me box app Bid Placement",
             text: htmldata,
@@ -224,7 +225,7 @@ THIS ONE IS FOR EMAIL THAT IS PLACED AFTER BID.`;
               htmldata = htmldata.replace("DATE", "");
 
               var mailOptions = {
-                from: "sendmeboxcomllc@gmail.com", // original Email
+                from: env.COMPANY_EMAIL, // original Email
                 to: User.email, //using Static for testing
                 subject: "Order Receipt From Send Me Box",
                 html: htmldata,
